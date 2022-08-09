@@ -19,18 +19,26 @@ window.onload = function load(){
         const response = await fetch(`https://jikan1.p.rapidapi.com/search/anime?q=${search.value}`, options)
         const json = await response.json()
         const Alength = json.results
-        
-        
-        if(Alength === undefined){
-            removeSearch(0)
+        const statusError = json.status
+        if(statusError === 404){
+            const errorDiv = document.querySelector(".noFund")
+            errorDiv.style.display = "initial";
+            setTimeout(()=>{
+                errorDiv.style.display = "none";
+            },1000)
+
         }else{
-            for(i = 0; i<Alength.length;i++){
-                const title = Alength[i].title
-                const urlImage = Alength[i].image_url
-                addResult(title , urlImage,i)
+            if(Alength === undefined){
+                removeSearch(0)
+            }else{
+                for(i = 0; i<Alength.length;i++){
+                    const title = Alength[i].title
+                    const urlImage = Alength[i].image_url
+                    addResult(title , urlImage,i)
+                }
+                beforeStatus = Alength.length
+                saveJson = await json.result
             }
-            beforeStatus = Alength.length
-            saveJson = await json.result
         }
         return Alength
     }
@@ -138,7 +146,6 @@ window.onload = function load(){
 
     function callFunctions(){
         //getSearch()
-        
         removeSearch(beforeStatus)
         awaitJson()
         /*try{   
