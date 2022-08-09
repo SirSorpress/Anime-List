@@ -25,7 +25,7 @@ window.onload = function load(){
             errorDiv.style.display = "initial";
             setTimeout(()=>{
                 errorDiv.style.display = "none";
-            },1000)
+            },1500)
 
         }else{
             if(Alength === undefined){
